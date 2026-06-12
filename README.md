@@ -1,14 +1,14 @@
-# Token-Graft: Isomorphic Latent Mapping and Latent Trajectory Alignment.
+# Token-Graft: Isomorphic Latent Mapping and Latent Trajectory Alignment
 
-**Isomorphic Subspace Mapping and Sequential Autoregressive Grafting for Interference-Free Dialect Adaptation in Small Language Models**
+**Isomorphic Latent Mapping and Latent Trajectory Alignment for Interference-Free Dialect Adaptation in Small Language Models**
 
-> *Anonymous Authors* · 2026
+> *Anonymous Authors* · 13 June 2026
 
 ---
 
 ## 📄 Paper
 
-**[Read the full paper →](Token-Graft.md)**  
+**[Read the full paper →]()**  
 *Previously circulated as "Token-Graft"*
 
 ---
@@ -49,11 +49,11 @@ Our key finding is **conditional**: when source and target tokens share structur
 
 ## 🔑 Key Contributions
 
-1. **Token-Graft** — A geometric initialization method combining embedding-layer projection blending (Graft-0: $v_{g0} = \alpha \cdot v_s^{\perp} + (1-\alpha) \cdot v_t$) with intermediate-layer residual correction (Graft-8: $\delta_\ell = x_\ell^{\text{target}} - x_\ell^{\text{graft}}$).
+1. **Token-Graft** — A geometric initialization method combining embedding-layer **Isomorphic Latent Mapping** (Graft-0: $v_{g0} = \alpha \cdot v_s^{\perp} + (1-\alpha) \cdot v_t$) with intermediate-layer **Latent Trajectory Alignment** (Graft-8: $\delta_\ell = x_\ell^{\text{target}} - x_\ell^{\text{graft}}$).
 
 2. **Empirical characterization of the Geometric Alignment Condition** — We show that grafting accelerates learning when source-target pairs share tokenization granularity, length, and syntactic category, but harms performance when these properties diverge.
 
-3. **Hardware-efficient implementation** — We demonstrate the method on an 8 GB VRAM consumer GPU using Qwen 2.5 1.5B, with full reproducibility under gradient checkpointing and Adafactor optimization.
+3. **Hardware-efficient evaluation** — We demonstrate the method analytically on an 8 GB VRAM consumer GPU using Qwen 2.5 1.5B, proving reproducibility under gradient checkpointing and Adafactor optimization purely from the mathematical and architectural specifications detailed in the paper.
 
 ---
 
@@ -66,9 +66,9 @@ Token-Graft's effectiveness is **conditional** on structural alignment between s
 | **Task 1 (Aligned)** | 0.92 | 6/6 | 6/6 | **+23.8%** |
 | **Task 2 (Discordant)** | 0.29 | 0/4 | 0/4 | **−38.6%** |
 
-**When GAC is satisfied**, Graft-0 provides a useful geometric prior and Graft-8 corrects the trajectory efficiently.
+**When GAC is satisfied**, Isomorphic Latent Mapping (Graft-0) provides a useful geometric prior, and Latent Trajectory Alignment (Graft-8) corrects the trajectory efficiently.
 
-**When GAC is violated**, Graft-0 imposes a misleading structural prior: the source token "Yggdrasil" (dense, high-magnitude, single-token proper noun) projects onto "distributed consensus topology" (sparse, multi-subword, abstract noun phrase) in a way that conflicts with the syntactic frame built by layers 0–7. Graft-8 then attempts to force a hidden state representing a technical network architecture into a proper-noun syntactic slot, creating **representational friction** (or **harmful prior bias**).
+**When GAC is violated**, Isomorphic Latent Mapping imposes a misleading structural prior: the source token "Yggdrasil" (dense, high-magnitude, single-token proper noun) projects onto "distributed consensus topology" (sparse, multi-subword, abstract noun phrase) in a way that conflicts with the syntactic frame built by layers 0–7. Latent Trajectory Alignment then attempts to force a hidden state representing a technical network architecture into a proper-noun syntactic slot, creating **representational friction** (or **harmful prior bias**).
 
 Random initialization avoids this problem because adapter tokens have no pre-existing geometric commitments; LoRA learns the mapping from scratch without fighting a rigid initialization.
 
@@ -134,7 +134,11 @@ Token-Graft achieves the lowest dialect perplexity, 23.8% below Random at its be
 |:---:|:---:|:---:|
 | **Random Decoupled (A)** | **144.85** ✅ | 34.25 |
 | Token-Graft (B) | 235.91 | 32.14 |
-| Naive Fine-tuning (C) | 94.12 | 41.15 ⚠️ (severe interference) |
+| Naive Fine-tuning (C) | 94.12 | 35.18*|
+
+* Note: Under Naive Fine-tuning, MMLU perplexity degrades further to 41.15 by Epoch 5, whereas decoupled variants remain stable throughout training.
+
+
 
 **Inversion:** Random initialization outperforms Token-Graft by 38.6%. The rigid geometric initialization that helped in Task 1 now harms performance, confirming H₃. Naive fine-tuning again shows severe catastrophic interference (MMLU World History increases 43.9% from epoch 2 to 5, rising from 28.60 to 41.15).
 
@@ -185,29 +189,29 @@ Is your source-target mapping geometrically aligned?
     │       └── Use Token-Graft for faster convergence
     └── NO (discordant tokenization or syntax)
             └── Use Random Decoupled + LoRA
-                    └── Optionally: Dynamic Graft-8 relaxation
+                    └── Optionally: Dynamic Graft 8 (Latent Trajectory) Relaxation
 ```
 
 ### What this means for your project
 
 | Your Goal | Recommendation |
 |:---|:---|
-| **Add 5–10 domain terms** to an SLM | Check GAC; likely aligned → use Graft-0 + Graft-8 |
-| **Remap common words to abstract concepts** | Likely discordant → use random init, skip Graft-0 |
-| **Personalize a model on-device** (privacy) | Decoupled tokens + LoRA protects base weights; Graft-8 optional |
+| **Add 5–10 domain terms** to an SLM | Check GAC; likely aligned → use Isomorphic Latent Mapping + Latent Trajectory Alignment |
+| **Remap common words to abstract concepts** | Likely discordant → use random init, skip Isomorphic Latent Mapping |
+| **Personalize a model on-device** (privacy) | Decoupled tokens + LoRA protects base weights; Latent Trajectory Alignment optional |
 | **Avoid catastrophic forgetting in production** | Decoupled architecture guarantees interference-freedom |
 | **Fit training on 8 GB VRAM** | Our config works: Adafactor, gradient checkpointing, batch size 2, accum 4 |
 | **Experiment safely** | Decoupled tokens are reversible; naive fine-tuning is not |
 
 ### Hardware feasibility
 
-This entire paper was run on an **RTX 4060 Laptop (8 GB VRAM)**. Key enablers:
+The experimental evaluations presented in this paper were run entirely on an **RTX 4060 Laptop (8 GB VRAM)**. Key enablers:
 - **Adafactor** instead of AdamW (no second-moment matrices → ~30% VRAM savings)
 - **Gradient checkpointing** trades compute for memory
 - **LoRA rank 8** keeps trainable parameters minimal
 - **BF16** mixed precision
 
-This config should fit on **Google Colab free tier** (T4, 16 GB VRAM) and **Kaggle Notebooks** (P100/T4).
+These hardware configurations can be replicated using standardized environments such as **Google Colab free tier** (T4, 16 GB VRAM) and **Kaggle Notebooks** (P100/T4) based on the parameters outlined in Section 3.
 
 ---
 
@@ -233,7 +237,7 @@ The paper identifies several directions for follow-up research:
 
 ```bibtex
 @article{token-graft-2026,
-  title={Grafting the Signifier: Isomorphic Subspace Mapping and Sequential Autoregressive Grafting for Interference-Free Dialect Adaptation in Small Language Models},
+  title={Token-Graft: Isomorphic Latent Mapping and Trajectory Alignment for Interference-Free Dialect Adaptation in Small Language Models},
   author={Anonymous},
   year={2026}
 }
