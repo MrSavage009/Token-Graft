@@ -1,4 +1,4 @@
-# Grafting the Signifier
+# Token-Graft: Isomorphic Latent Mapping and Latent Trajectory Alignment.
 
 **Isomorphic Subspace Mapping and Sequential Autoregressive Grafting for Interference-Free Dialect Adaptation in Small Language Models**
 
