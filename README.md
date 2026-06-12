@@ -8,7 +8,7 @@
 
 ## 📄 Paper
 
-**[Read the full paper →](paper.md)**  
+**[Read the full paper →](Token-Graft.md)**  
 *Previously circulated as "Token-Graft"*
 
 ---
