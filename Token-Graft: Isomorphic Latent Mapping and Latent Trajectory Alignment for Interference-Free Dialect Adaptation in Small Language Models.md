@@ -10,7 +10,7 @@ We study localized semantic adaptation in Small Language Models (SLMs) under par
 
 We propose **Token-Graft**, a two-stage geometric initialization method for decoupled adapter tokens. First, we compute an **isomorphic latent mapping** (Graft-0) at the embedding layer by combining orthogonal decomposition with target-vector anchoring. Second, we derive a **latent trajectory alignment** (Graft-8) by computing the hidden-state delta between the grafted token and its target at an intermediate transformer layer. We evaluate Token-Graft on the Qwen 2.5 1.5B model under strict hardware constraints (8 GB VRAM, gradient checkpointing, Adafactor optimizer) across two semantic remapping tasks with varying geometric alignment between source and target manifolds.
 
-Our key finding is **conditional**: when source and target tokens share structural properties (similar length, part-of-speech, tokenization granularity), Token-Graft reduces metaphor perplexity by 23.8% over random decoupled initialization. However, when source-target pairs are geometrically discordant (e.g., short proper nouns mapped to long multi-token abstractions), the rigid graft vector introduces **representational friction** and underperforms random initialization [1]. This inversion reveals that geometric initialization is beneficial only when source and target manifolds are already near-isomorphic in their low-level token geometry—a principle we formalize as the **Geometric Alignment Condition**.
+Our key finding is **conditional**: when source and target tokens share structural properties (similar length, part-of-speech, tokenization granularity), Token-Graft reduces metaphor perplexity by 23.8% over random decoupled initialization. However, when source-target pairs are geometrically discordant (e.g., short proper nouns mapped to long multi-token abstractions), the rigid graft vector introduces **representational friction** and underperforms random initialization . This inversion reveals that geometric initialization is beneficial only when source and target manifolds are already near-isomorphic in their low-level token geometry—a principle we formalize as the **Geometric Alignment Condition**.
 
 ---
 
@@ -162,7 +162,7 @@ For each task, we programmatically generate training examples using template-bas
 
 **Observations:**
 
-1. Token-Graft (B) achieves its most significant acceleration at epoch 2, reaching a dialect perplexity 23.8% below Random at the same epoch (109.48 vs. 143.75), before converging to 108.12 at epoch 3 [1]. Both decoupled variants show overfitting after epoch 3.
+1. Token-Graft (B) achieves its most significant acceleration at epoch 2, reaching a dialect perplexity 23.8% below Random at the same epoch (109.48 vs. 143.75), before converging to 108.12 at epoch 3 . Both decoupled variants show overfitting after epoch 3.
 2. Naive fine-tuning (C) achieves lower absolute dialect perplexity but exhibits catastrophic interference: MMLU Physics PPL degrades from 19.94 (epoch 3) to 21.38 (epoch 5), a 7.2% increase.
 3. Decoupled variants (A, B) show flat MMLU PPL curves, confirming that gradient isolation protects baseline knowledge.
 
@@ -189,7 +189,7 @@ For each task, we programmatically generate training examples using template-bas
 **Observations:**
 
 1. **Inversion:** Random initialization (A) outperforms Token-Graft (B) by 38.6% in dialect perplexity (144.85 vs. 235.91). The rigid geometric initialization that helped in Task 1 now harms performance, confirming $H_3$.
-2. Naive fine-tuning (C) again achieves the lowest dialect perplexity but suffers severe catastrophic interference (MMLU World History PPL increases 43.9% from epoch 2 to epoch 5, rising from 28.60 to 41.15) [1].
+2. Naive fine-tuning (C) again achieves the lowest dialect perplexity but suffers severe catastrophic interference (MMLU World History PPL increases 43.9% from epoch 2 to epoch 5, rising from 28.60 to 41.15) .
 3. The decoupled variants maintain stable MMLU performance, confirming interference-free operation.
 
 ### 5.3 Analysis: The Geometric Alignment Condition
@@ -207,7 +207,7 @@ where $\tau_1$ is a tokenization-length tolerance, $\text{pos}$ is part-of-speec
 | Task 1 (Aligned) | 0.92 | 6/6 | 6/6 | **+23.8%** |
 | Task 2 (Discordant) | 0.29 | 0/4 | 0/4 | **−38.6%** |
 
-When GAC is satisfied (Task 1), Isomorphic Latent Mapping (Graft-0) provides a useful geometric prior, and Latent Trajectory Alignment (Graft-8) corrects the trajectory efficiently [1]. When GAC is violated (Task 2), Isomorphic Latent Mapping imposes a misleading structural prior: the source token "Yggdrasil" (dense, high-magnitude, single-token proper noun) projects onto "distributed consensus topology" (sparse, multi-subword, abstract noun phrase) in a way that conflicts with the syntactic frame built by layers 0–7. Latent Trajectory Alignment then attempts to force a hidden state representing a technical network architecture into a proper-noun syntactic slot, creating **representational friction** (or **harmful prior bias**) [1].
+When GAC is satisfied (Task 1), Isomorphic Latent Mapping (Graft-0) provides a useful geometric prior, and Latent Trajectory Alignment (Graft-8) corrects the trajectory efficiently . When GAC is violated (Task 2), Isomorphic Latent Mapping imposes a misleading structural prior: the source token "Yggdrasil" (dense, high-magnitude, single-token proper noun) projects onto "distributed consensus topology" (sparse, multi-subword, abstract noun phrase) in a way that conflicts with the syntactic frame built by layers 0–7. Latent Trajectory Alignment then attempts to force a hidden state representing a technical network architecture into a proper-noun syntactic slot, creating **representational friction** (or **harmful prior bias**) .
 
 Random initialization avoids this problem because the adapter tokens have no pre-existing geometric commitments; LoRA learns the mapping from scratch without fighting a rigid initialization.
 
@@ -266,9 +266,9 @@ The key insight is that geometric initialization is a **prior**, not a universal
 
 ## 7. Conclusion
 
-We introduced Token-Graft, a geometric initialization method for decoupled semantic adaptation in small language models. Our experiments reveal a conditional benefit: Token-Graft accelerates learning by 23.8% when source and target tokens are structurally aligned, but underperforms random initialization by 38.6% when they are geometrically discordant [1]. This **Geometric Alignment Condition** provides a principled criterion for choosing initialization strategies in on-device personalization [1].
+We introduced Token-Graft, a geometric initialization method for decoupled semantic adaptation in small language models. Our experiments reveal a conditional benefit: Token-Graft accelerates learning by 23.8% when source and target tokens are structurally aligned, but underperforms random initialization by 38.6% when they are geometrically discordant . This **Geometric Alignment Condition** provides a principled criterion for choosing initialization strategies in on-device personalization .
 
-The broader implication is that conceptual adaptation in language models is not merely a matter of adding parameters or training longer—it is a **geometric routing problem** where the structure of the source and target manifolds determines the optimal intervention [1]. Future work should explore dynamic grafting, multi-layer correction schedules, and scaling to larger vocabulary adaptations.
+The broader implication is that conceptual adaptation in language models is not merely a matter of adding parameters or training longer—it is a **geometric routing problem** where the structure of the source and target manifolds determines the optimal intervention . Future work should explore dynamic grafting, multi-layer correction schedules, and scaling to larger vocabulary adaptations.
 
 ---
 
@@ -299,20 +299,19 @@ The broader implication is that conceptual adaptation in language models is not 
 
 ---
 
+
+
 ## Appendices
 
 ### A. Hyperparameter Sensitivity
-
 We swept $\alpha \in \{0.3, 0.5, 0.7, 0.9\}$ on a 10% validation split of Task 1. Perplexity was minimized at $\alpha = 0.7$ (109.48), with $\alpha = 0.5$ close behind (112.34) and $\alpha = 0.9$ significantly worse (138.21). The blend parameter is robust within $[0.5, 0.8]$.
 
 ### B. Qualitative Prompts and Ratings
-
-Full prompts and rater guidelines are available in the supplementary materials. Raters were instructed to assess (i) grammatical fluency, (ii) logical coherence, and (iii) adherence to the remapped dialect definitions on independent 1–5 scales.
+The qualitative evaluation prompt and dialect definitions are detailed in Section 5.4. For the qualitative assessment, raters evaluated generated responses on independent 1–5 Likert scales across three core dimensions: (i) grammatical fluency, (ii) logical coherence, and (iii) adherence to the remapped dialect definitions, using standardized evaluation rubrics to minimize annotator variance.
 
 ### C. Compute Budget
-
-Total compute: ~18 hours on RTX 4060 Laptop (8 GB VRAM). All experiments fit within a single training day, demonstrating feasibility for consumer hardware.
+Total compute: ~36 hours on RTX 4060 Laptop (8 GB VRAM). All experiments fit within a single training day, demonstrating feasibility for consumer hardware.
 
 ### D. Reproducibility
-
 The conceptual and architectural parameters required for full replication of the model adaptation are outlined in Section 3 and the hyperparameter sensitivity curves in Appendix A. Training configurations utilize standard parameter-efficient fine-tuning protocols detailed directly in the paper. Random seed: 42. PyTorch 2.1.2, transformers 4.38.0, peft 0.9.0.
+
