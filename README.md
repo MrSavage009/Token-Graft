@@ -87,7 +87,7 @@ Random initialization avoids this problem because adapter tokens have no pre-exi
 | **Training** | Batch size 2, gradient accumulation 4, LR 2×10⁻⁴ |
 | **Epochs** | 3 with early stopping (validation metaphor PPL) |
 | **Gradient checkpointing** | Enabled |
-| **Total compute** | ~18 hours on consumer hardware |
+| **Total compute** | ~36 hours on consumer hardware |
 | **Random seed** | 42 |
 | **PyTorch** | 2.1.2 |
 | **Transformers** | 4.38.0 |
