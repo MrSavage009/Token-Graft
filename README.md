@@ -24,6 +24,15 @@ We formalize this as the **Geometric Alignment Condition (GAC)**.
 
 ---
 
+## 📊 Core Empirical Findings
+
+![Token-Graft Core Empirical Findings](findings.png)
+
+**Left:** The GAC Inversion shows Token-Graft (B) outperforms Random (A) when geometrically aligned (+2.8%), but inverts catastrophically when discordant (−38.6%). Naive fine-tuning (C) achieves lower absolute PPL but pays a steep forgetting cost (Chart 2).  
+**Right:** The Shield Effect demonstrates that decoupled methods retain 100% of base knowledge, while Naive fine-tuning degrades by up to 43.9%.
+
+---
+
 ## Abstract
 
 We study localized semantic adaptation in Small Language Models (SLMs) under parameter-efficient constraints. When adapting an on-device model to a structured conceptual dialect—where standard signifiers are remapped to foreign referents—naive fine-tuning corrupts pre-trained weights via catastrophic interference, while decoupled tokenization alone suffers from slow convergence and poor metaphor generalization.
