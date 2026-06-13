@@ -8,7 +8,7 @@
 
 ## 📄 Paper
 
-**[Read the full paper →](Token-Graft%3A%20Isomorphic%20Latent%20Mapping%20and%20Latent%20Trajectory%20Alignment%20for%20Interference-Free%20Dialect%20Adaptation%20in%20Small%20Language%20Models.md)**  
+**[Read the full paper →](Token-Graft/blob/main/Token-Graft%3A%20Isomorphic%20Latent%20Mapping%20and%20Latent%20Trajectory%20Alignment%20for%20Interference-Free%20Dialect%20Adaptation%20in%20Small%20Language%20Models.md)**  
 
 ---
 
