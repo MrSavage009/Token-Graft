@@ -28,8 +28,7 @@ We formalize this as the **Geometric Alignment Condition (GAC)**.
 
 ![Token-Graft Core Empirical Findings](findings.png)
 
-**Left:** The GAC Inversion shows Token-Graft (B) outperforms Random (A) when geometrically aligned (+2.8%), but inverts catastrophically when discordant (−38.6%). Naive fine-tuning (C) achieves lower absolute PPL but pays a steep forgetting cost (Chart 2).  
-**Right:** The Shield Effect demonstrates that decoupled methods retain 100% of base knowledge, while Naive fine-tuning degrades by up to 43.9%.
+> **Figure 1.** The conditional benefit of geometric initialization and the interference shield of decoupled tokenization. **(a)** The GAC Inversion: Token-Graft (B) outperforms random initialization (A) when aligned (+2.8%) but inverts when discordant (−38.6%). Naive fine-tuning (C) wins on perplexity but destroys base knowledge (panel b). **(b)** The Shield Effect: Decoupled methods retain 100% of general knowledge; naive fine-tuning forgets up to 43.9%. The open challenge is to preserve this shield while closing the perplexity gap to naive fine-tuning.
 
 ---
 
